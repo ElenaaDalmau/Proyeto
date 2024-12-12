@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Citas</title>
+
+<!--CABECERA-->
+<div id="header">
+    <div class="logo">
+        <img src="img/logo.png" alt="COACHING SL">
+    </div>
+    <nav>
+        <ul>
+            <li><a href="Inicio.php"><i class="fa fa-home"></i> <span data-translate="inicio">Inicio</span></a></li>
+            <li><a href="ComoTrabajamos.php"><i class="fa fa-briefcase"></i> <span data-translate="como_trabajar">¿Quiénes somos?</span></a></li>
+            <li><a href="Contacto.php"><i class="fa fa-phone-square"></i> <span data-translate="contacto">Puesta en contacto</span></a></li>
+            <li><a href="ListadoEspecialistas.php"><i class="fa fa-address-book"></i> <span data-translate="especialistas">Especialistas</span></a></li>
+            <li><a href="Calendario.html"><i class="fa fa-calendar"></i> <span data-translate="calendario">Calendario</span></a></li>
+            <li>               
+                <div class="lenguage-selector">
+                    <label for="lenguage"></label>
+                    <select name="lenguage" id="lenguage">
+                        <option value="es" data-translate="espanol">Español</option>
+                        <option value="ca" data-translate="catalan">Catalan</option>
+                        <option value="en" data-translate="ingles">Inglés</option>
+                        <option value="fr" data-translate="frances">Francés</option>
+                        <option value="it" data-translate="italiano">Italiano</option>
+                        <option value="eu" data-translate="euskera">Euskera</option>
+                        <option value="gl" data-translate="gallego">Gallego</option>
+                        <option value="su" data-translate="sueco">Sueco</option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 10px;
+        }
+        .ocupado {
+            background-color: #f77;
+            color: white;
+        }
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calendario de Citas</h1>
+    
+    <!-- Mostrar el nombre del mes y los controles -->
+    <h2 id="mesTitulo"></h2>
+    <button onclick="cambiarMes(-1)">Mes Anterior</button>
+    <button onclick="cambiarMes(1)">Mes Siguiente</button>
+
+    <table id="calendario">
+        <thead>
+            <tr>
+                <th>Dom</th>
+                <th>Lun</th>
+                <th>Mar</th>
+                <th>Mié</th>
+                <th>Jue</th>
+                <th>Vie</th>
+                <th>Sáb</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se genera el calendario dinámicamente -->
+        </tbody>
+    </table>
+
+    <!-- Popup para mostrar información de la cita -->
+    <div id="popup">
+        <p id="detalle"></p>
+        <button onclick="cerrarPopup()">Cerrar</button>
+    </div>
+
+    <script>
+let fechaActual = new Date();  // Fecha actual
+
+// Función para generar el calendario
+function generarCalendario(fecha, citas) {
+    const tbody = document.querySelector("#calendario tbody");
+    tbody.innerHTML = ""; // Limpiar el contenido del calendario
+
+    const primerDia = new Date(fecha.getFullYear(), fecha.getMonth(), 1);
+    const ultimoDia = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0);
+
+    let diaActual = 1 - primerDia.getDay(); // Ajustar para comenzar en domingo
+    while (diaActual <= ultimoDia.getDate()) {
+        const fila = document.createElement("tr");
+        for (let i = 0; i < 7; i++) {
+            const celda = document.createElement("td");
+
+            if (diaActual > 0 && diaActual <= ultimoDia.getDate()) {
+                celda.textContent = diaActual;
+
+                // Verificar si la fecha está ocupada
+                const fechaString = `${fecha.getFullYear()}-${(fecha.getMonth() + 1).toString().padStart(2, '0')}-${diaActual.toString().padStart(2, '0')}`;
+                const cita = citas.find(c => c.Fecha_Cita === fechaString);
+
+                if (cita) {
+                    celda.classList.add("ocupado");
+                    celda.onclick = () => mostrarDetalle(cita);
+                }
+            }
+
+            fila.appendChild(celda);
+            diaActual++;
+        }
+        tbody.appendChild(fila);
+    }
+
+    // Mostrar el nombre del mes
+    document.getElementById("mesTitulo").textContent = obtenerNombreMes(fecha);
+}
+
+// Función para obtener el nombre del mes
+function obtenerNombreMes(fecha) {
+    const nombresMeses = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    return `${nombresMeses[fecha.getMonth()]} ${fecha.getFullYear()}`;
+}
+
+// Función para cambiar de mes
+function cambiarMes(direccion) {
+    fechaActual.setMonth(fechaActual.getMonth() + direccion);
+    obtenerCitas(); // Volver a obtener citas para el mes actualizado
+}
+
+// Mostrar detalles de una cita en un popup
+function mostrarDetalle(cita) {
+    const popup = document.getElementById("popup");
+    document.getElementById("detalle").textContent = `
+        Especialista: ${cita.Nombre_Especialista} ${cita.Apellido_Especialista}
+        Hora: ${cita.Hora_Cita}`;
+    popup.style.display = "block";
+}
+
+// Cerrar el popup
+function cerrarPopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+// Obtener citas del servidor
+async function obtenerCitas() {
+    try {
+        const token = localStorage.getItem('auth_token'); // Obtener token de autenticación
+        const respuesta = await fetch(`citas.php?ID_Cliente=1&mes=${fechaActual.getMonth() + 1}&año=${fechaActual.getFullYear()}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`  // Incluir token de autenticación
+            }
+        });
+        
+        if (!respuesta.ok) {
+            throw new Error('Error al obtener las citas');
+        }
+
+        const citas = await respuesta.json();
+
+        // Validar que las citas sean un array
+        if (!Array.isArray(citas)) {
+            throw new Error('Datos de citas inválidos');
+        }
+
+        generarCalendario(fechaActual, citas);
+    } catch (error) {
+        console.error('Error al obtener las citas:', error);
+        alert('Hubo un problema al cargar las citas. Por favor, inténtalo más tarde.');
+    }
+}
+
+// Inicializar el calendario al cargar la página
+obtenerCitas();
+
+    </script>
+
+<!-- PIE DE PAGINA -->
+<footer>
+    Todos los derechos reservados | Coaching SL Copyright © 2024
+</footer>
+
+    <!-- Link a JavaScript -->
+    <script src="JS/traducciones.js"></script>
+
+</body>
+</html>
