@@ -1,0 +1,159 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f5f5f5;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #337ab7;
+  }
+  
+  a:hover {
+    color: #23527c;
+  }
+  
+  /* Cabecera */
+  
+  #header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  #header .logo {
+    margin-bottom: 10px;
+  }
+  
+  #header .logo img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  
+  #header nav {
+    background-color: #444;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  #header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #header nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  #header nav ul li a {
+    color: #fff;
+  }
+  
+  #header nav ul li a:hover {
+    color: #ccc;
+  }
+  
+  /* Listado de citas */
+  
+  .listado-citas {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .listado-citas h1 {
+    margin-top: 0;
+  }
+  
+  .underline {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+  
+  #contenedor-listado {
+    margin-top: 20px;
+  }
+  
+  .cita-contenedor {
+    background-color: #f5f5f5;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cita-contenedor h5 {
+    margin-top: 0;
+  }
+  
+  .cita-contenedor ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .cita-contenedor ul li {
+    margin-bottom: 10px;
+  }
+  
+  /* Botones */
+  
+  .boton {
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .boton:hover {
+    background-color: #23527c;
+  }
+  
+  /* Pie de página */
+  
+  footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    clear: both;
+  }
+  
+  /* Lenguaje selector */
+  
+  .lenguage-selector {
+    margin-top: 10px;
+  }
+  
+  .lenguage-selector select {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Separadores */
+  
+  hr {
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+    margin: 20px 0;
+  }
+  
+  

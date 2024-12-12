@@ -6,16 +6,13 @@
     <title>ComoTrabajamos</title>
     
     <!-- Link hacia el archivo de estilos css -->
-    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/MisCitasEspe.css">
 
     <!-- Link favicon -->
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
 
     <!-- Link para que funcionen los FA FA -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <!-- Encapsulado CSS -->
-    <link rel="stylesheet" href="css/estilo.css">
 
 <style>
 
